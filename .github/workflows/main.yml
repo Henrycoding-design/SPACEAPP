@@ -1,0 +1,116 @@
+name: Build & Sign Info Release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag (e.g. 5.1.0)"
+        required: true
+      info_title:
+        description: "Title for info update"
+        required: true
+      info_md_file:
+        description: "Path to your .md file (optional, default=whatsnew.md)"
+        required: false
+        default: "whatsnew.md"
+      survey_title:
+        description: "Survey title"
+        required: true
+      survey_url:
+        description: "Survey form URL"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install cryptography
+
+      - name: Prepare info file
+        run: |
+          mkdir -p artifacts
+          if [ -f "${{ github.event.inputs.info_md_file }}" ]; then
+            cp "${{ github.event.inputs.info_md_file }}" artifacts/whatsnew.md
+          else
+            echo "No markdown file found. Creating default whatsnew.md"
+            echo "# Update Information\n\nNo new details provided." > artifacts/whatsnew.md
+          fi
+
+      - name: Create manifest
+        id: make_manifest
+        run: |
+          info_url="https://github.com/${{ github.repository }}/releases/download/${{ github.event.inputs.version }}/whatsnew.md"
+          python - <<'PY'
+import json, datetime
+manifest = {
+  "version": "${{ github.event.inputs.version }}",
+  "release_date": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+  "updates": [
+    {
+      "type": "info",
+      "title": "${{ github.event.inputs.info_title }}",
+      "content_url": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.inputs.version }}/whatsnew.md"
+    },
+    {
+      "type": "survey",
+      "title": "${{ github.event.inputs.survey_title }}",
+      "form_url": "${{ github.event.inputs.survey_url }}"
+    }
+  ]
+}
+with open("update.json", "w") as f:
+    f.write(json.dumps(manifest, separators=(',', ':'), sort_keys=True))
+print("Created update.json")
+PY
+
+      - name: Prepare private key
+        env:
+          PRIVATE_PEM_BASE64: ${{ secrets.PRIVATE_PEM_BASE64 }}
+        run: |
+          echo "$PRIVATE_PEM_BASE64" | base64 -d > private.pem
+
+      - name: Sign manifest
+        run: python tools/sign_manifest.py update.json private.pem update.json.sig
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: Info Update ${{ github.event.inputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload info file (.md)
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifacts/whatsnew.md
+          asset_name: whatsnew.md
+          asset_content_type: text/markdown
+
+      - name: Upload manifest
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: update.json
+          asset_name: update.json
+          asset_content_type: application/json
+
+      - name: Upload signature
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: update.json.sig
+          asset_name: update.json.sig
+          asset_content_type: application/octet-stream
