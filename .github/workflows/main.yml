@@ -14,10 +14,10 @@ on:
         default: "whatsnew.md"
       survey_title:
         description: "Survey title"
-        required: true
+        required: false
       survey_url:
         description: "Survey form URL"
-        required: true
+        required: false
 
 permissions:
   contents: write
@@ -51,26 +51,34 @@ jobs:
         run: |
           info_url="https://github.com/${{ github.repository }}/releases/download/${{ github.event.inputs.version }}/whatsnew.md"
           python - <<'PY'
-          import json, datetime
-          manifest = {
-            "version": "${{ github.event.inputs.version }}",
-            "release_date": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "updates": [
+          import json, datetime, os
+
+          updates = [
               {
-                "type": "info",
-                "title": "${{ github.event.inputs.info_title }}",
-                "content_url": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.inputs.version }}/whatsnew.md"
-              },
-              {
-                "type": "survey",
-                "title": "${{ github.event.inputs.survey_title }}",
-                "form_url": "${{ github.event.inputs.survey_url }}"
+                  "type": "info",
+                  "title": "${{ github.event.inputs.info_title }}",
+                  "content_url": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.inputs.version }}/whatsnew.md"
               }
-            ]
+          ]
+
+          survey_title = "${{ github.event.inputs.survey_title }}".strip()
+          survey_url = "${{ github.event.inputs.survey_url }}".strip()
+          if survey_title and survey_url:
+              updates.append({
+                  "type": "survey",
+                  "title": survey_title,
+                  "form_url": survey_url
+              })
+
+          manifest = {
+              "version": "${{ github.event.inputs.version }}",
+              "release_date": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "updates": updates
           }
+
           with open("update.json", "w") as f:
               f.write(json.dumps(manifest, separators=(',', ':'), sort_keys=True))
-          print("Created update.json")
+          print("Created update.json (survey included:", bool(survey_title and survey_url), ")")
           PY
 
       - name: Prepare private key
@@ -96,5 +104,4 @@ jobs:
           gh release upload "${{ github.event.inputs.version }}" update.json update.json.sig artifacts/whatsnew.md --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 
