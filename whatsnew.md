@@ -14,7 +14,7 @@ Also... Don't miss out:
 To celebrate the season, we’ve activated a **limited-time 15% Christmas Discount** on the entire BMAC Shop.  
 The price drops automatically — no codes, no fuss.
 
-🛒 Visit the BMAC Shop: https://buymeacoffee.com/yourshop
+🛒 Visit the BMAC Shop: https://buymeacoffee.com/votanbinh
 
 Sale ends **December 31**.  
 Happy holidays, and thanks for supporting SPACEAPP! 🎄✨
