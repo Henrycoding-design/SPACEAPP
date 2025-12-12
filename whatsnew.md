@@ -1,4 +1,4 @@
-# 🎄 SpaceApp Christmas Celebration 2024
+# 🎄 SpaceApp Christmas Celebration 2025
 
 *Hey there! We cooked up a cozy little Christmas surprise for you — complete with quotes, fun facts, a mini-quiz, and even some festive music. Come check it out!*
 
