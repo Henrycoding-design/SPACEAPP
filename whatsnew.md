@@ -1,4 +1,4 @@
-# 💖 SpaceApp Valentine’s Special 2026
+# 💖 SPACEAPP Valentine’s Special 2026
 
 Hey — we made something small and meaningful for Valentine’s Day.  
 A calm little page with love quotes, gentle vibes, and a moment to slow down.  
