@@ -1,20 +1,23 @@
-# 🎄 SpaceApp Christmas Celebration 2025
+# 💖 SpaceApp Valentine’s Special 2026
 
-*Hey there! We cooked up a cozy little Christmas surprise for you — complete with quotes, fun facts, a mini-quiz, and even some festive music. Come check it out!*
+Hey — we made something small and meaningful for Valentine’s Day.  
+A calm little page with love quotes, gentle vibes, and a moment to slow down.  
+No pressure. Just something nice. 💫
 
-## 👉 Visit the Christmas Celebration Page:
-[Open Christmas Celebration](https://spaceappweb.onrender.com/christmas.html)
+## 👉 Visit the Valentine Page:
+[Open Valentine Special](https://spaceappweb.onrender.com/valentine.html)
 
-*Happy Holidays & enjoy the mini-experience!* 🎅🎁
+Made with care. Meant to be shared.  
+Or kept just for you. 💌
 
-Also... Don't miss out:
+---
 
-## 🎁 Christmas Sale — Extra 15% Off!
+## ☕ Valentine Treat — A Little Love Back
 
-To celebrate the season, we’ve activated a **limited-time 15% Christmas Discount** on the entire BMAC Shop.  
-The price drops automatically — no codes, no fuss.
+If you enjoy what we build and want to support SPACEAPP,  
+you can drop by the BMAC page and send some love our way 💖
 
-🛒 Visit the BMAC Shop: https://buymeacoffee.com/votanbinh
+🛒 Support here: https://buymeacoffee.com/votanbinh
 
-Sale ends **December 31**.  
-Happy holidays, and thanks for supporting SPACEAPP! 🎄✨
+No rush. No push.  
+Just appreciation — and thank you for being here. ✨
