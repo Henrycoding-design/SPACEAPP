@@ -21,3 +21,14 @@ you can drop by the BMAC page and send some love our way 💖
 
 No rush. No push.  
 Just appreciation — and thank you for being here. ✨
+
+---
+
+## 💘 Valentine Sale — 25% Off
+
+As a small Valentine thank-you, we’re offering **25% off** on the BMAC Shop.
+
+**Code:** `Q8WBZ46I`  
+**Valid until:** **March 31**
+
+Only if you want to — no pressure at all 💫
