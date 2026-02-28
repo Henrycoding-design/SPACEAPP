@@ -84,9 +84,6 @@ jobs:
           start_date, start_recurring = parse_date(start_raw)
           end_date, end_recurring = parse_date(end_raw)
 
-          if start_date > end_date:
-              raise ValueError("start_day must be before end_day")
-
           updates = [
               {
                   "type": "info",
