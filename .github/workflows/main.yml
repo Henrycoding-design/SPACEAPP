@@ -5,6 +5,12 @@ on:
       version:
         description: "Version tag (e.g. 5.1.0)"
         required: true
+      start_day:
+        description: "day/month/year(optional)"
+        required: true
+      end_day:
+        description: "day/month/year(optional"
+        required: true
       info_title:
         description: "Title for info update"
         required: true
@@ -49,15 +55,43 @@ jobs:
       - name: Create manifest
         id: make_manifest
         run: |
-          info_url="https://github.com/${{ github.repository }}/releases/download/${{ github.event.inputs.version }}/whatsnew.md"
           python - <<'PY'
-          import json, datetime, os
+          import json, datetime, os, re
+
+          version = "${{ github.event.inputs.version }}"
+          start_raw = "${{ github.event.inputs.start_day }}".strip()
+          end_raw = "${{ github.event.inputs.end_day }}".strip()
+
+          def parse_date(date_str):
+              pattern = r"^(\d{1,2})/(\d{1,2})(?:/(\d{4}))?$"
+              match = re.match(pattern, date_str)
+              if not match:
+                  raise ValueError(f"Invalid date format: {date_str}. Use dd/mm or dd/mm/yyyy")
+
+              day, month, year = match.groups()
+              day = int(day)
+              month = int(month)
+
+              if year:
+                  year = int(year)
+              else:
+                  year = datetime.datetime.utcnow().year
+
+              # Validate actual calendar date
+              dt = datetime.datetime(year, month, day)
+              return dt.strftime("%Y-%m-%d"), (match.group(3) is None)
+
+          start_date, start_recurring = parse_date(start_raw)
+          end_date, end_recurring = parse_date(end_raw)
+
+          if start_date > end_date:
+              raise ValueError("start_day must be before end_day")
 
           updates = [
               {
                   "type": "info",
                   "title": "${{ github.event.inputs.info_title }}",
-                  "content_url": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.inputs.version }}/whatsnew.md"
+                  "content_url": f"https://github.com/${{ github.repository }}/releases/download/{version}/whatsnew.md"
               }
           ]
 
@@ -71,16 +105,20 @@ jobs:
               })
 
           manifest = {
-              "version": "${{ github.event.inputs.version }}",
+              "version": version,
               "release_date": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "start_date": start_date,
+              "end_date": end_date,
+              "recurring_annually": (start_recurring and end_recurring),
               "updates": updates
           }
 
           with open("update.json", "w") as f:
               f.write(json.dumps(manifest, separators=(',', ':'), sort_keys=True))
-          print("Created update.json (survey included:", bool(survey_title and survey_url), ")")
-          PY
 
+          print("Created update.json successfully")
+          PY
+          
       - name: Prepare private key
         env:
           PRIVATE_PEM_BASE64: ${{ secrets.PRIVATE_PEM_BASE64 }}
