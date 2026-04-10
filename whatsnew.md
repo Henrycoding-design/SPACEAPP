@@ -1,34 +1,32 @@
-# 💖 SPACEAPP Valentine’s Special
+# 🚀 SPACEAPP Release — Artemis II Splashdown Tracker
 
-Hey — we made something small and meaningful for Valentine’s Day.  
-A calm little page with love quotes, gentle vibes, and a moment to slow down.  
-No pressure. Just something nice. 💫
+Hey — we just launched something new.  
+A live countdown experience for the **Artemis II** splashdown.
 
-## 👉 Visit the Valentine Page:
-[Open Valentine Special](https://spaceappweb.onrender.com/valentine.html)
+Watch the timer tick down in real time,  
+see the Orion return to Earth,  
+and catch the exact moment they make it home 🌊  
 
-Made with care. Meant to be shared.  
-Or kept just for you. 💌
-
----
-
-## ☕ Valentine Treat — A Little Love Back
-
-If you enjoy what we build and want to support SPACEAPP,  
-you can drop by the BMAC page and send some love our way 💖
-
-🛒 Support here: https://buymeacoffee.com/votanbinh
-
-No rush. No push.  
-Just appreciation — and thank you for being here. ✨
+Built to feel less like a page — and more like a mission.
 
 ---
 
-## 💘 Valentine Sale — 25% Off
+## 👉 Track the Splashdown
+🔗 https://spaceappweb.onrender.com/artemisII.html
 
-As a small Valentine thank-you, we’re offering **25% off** on the BMAC Shop.
+---
 
-**Code:** `Q8WBZ46I`  
-**Valid until:** **March 31**
+Made with intention.  
+Timed to the second.  
+Best experienced live. ✨
 
-Only if you want to — no pressure at all 💫
+---
+
+## ☕ Support SPACEAPP
+
+If you enjoy what we’re building and want to support future features,  
+you can drop by and support here 💖  
+
+🛒 https://buymeacoffee.com/votanbinh  
+
+No pressure — just appreciation.
